@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import Svg, { Circle, Defs, RadialGradient, Stop, Rect } from 'react-native-svg'
-import { Dimensions } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Dimensions, Animated } from 'react-native'
+import Svg, { Circle, Defs, RadialGradient, Stop, Rect, Line } from 'react-native-svg'
 
 const { width: W, height: H } = Dimensions.get('window')
 
@@ -10,61 +10,93 @@ interface Star {
   r: number
   phase: number
   speed: number
-  layer: 'tiny' | 'medium' | 'bright'
+  depth: number
+  color: string
+  glow: number
+}
+
+interface ShooterParticle {
+  x: number
+  y: number
+  size: number
+  alpha: number
 }
 
 interface Shooter {
-  x: number
-  y: number
+  startX: number
+  startY: number
+  mx: number
+  my: number
+  progress: number
+  speed: number
   delay: number
+  particles: ShooterParticle[]
 }
 
-const STARS: Star[] = [
-  ...Array.from({ length: 60 }, (_, i) => ({
-    x: (i * 1.7) % 100,
-    y: (i * 2.8) % 100,
-    r: 1,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.5 + (i % 7) * 0.15,
-    layer: 'tiny' as const,
-  })),
-  ...Array.from({ length: 30 }, (_, i) => ({
-    x: (i * 3.5 + 1) % 100,
-    y: (i * 4.2 + 2) % 100,
-    r: 2,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.4 + (i % 6) * 0.12,
-    layer: 'medium' as const,
-  })),
-  ...Array.from({ length: 15 }, (_, i) => ({
-    x: (i * 7.1 + 3) % 100,
-    y: (i * 8.3 + 4) % 100,
-    r: 3,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.3 + i * 0.04,
-    layer: 'bright' as const,
-  })),
+const STAR_LAYERS = [
+  { count: 80, size: 0.5, speed: 0.3, color: '#fff', glow: 0 },
+  { count: 50, size: 1, speed: 0.5, color: '#fff', glow: 0 },
+  { count: 30, size: 1.5, speed: 0.7, color: 'rgba(180,255,240,0.9)', glow: 4 },
+  { count: 15, size: 2, speed: 0.9, color: '#fff', glow: 6 },
+  { count: 8, size: 2.5, speed: 1.2, color: 'rgba(100,255,218,0.95)', glow: 8 },
 ]
 
-const SHOOTERS: Shooter[] = Array.from({ length: 6 }, (_, i) => ({
-  x: 5 + i * 15,
-  y: 2 + i * 7,
-  delay: i * 0.85,
-}))
+function createShooter(): Shooter {
+  const numP = 3 + Math.floor(Math.random() * 3)
+  const particles: ShooterParticle[] = []
+  for (let i = 0; i < numP; i++) {
+    particles.push({
+      x: -(i + 1) * (12 + Math.random() * 8),
+      y: (Math.random() - 0.5) * 8,
+      size: 1 + Math.random() * 1.5,
+      alpha: 0.5 - i * 0.12,
+    })
+  }
+  return {
+    startX: 0.05 * W + Math.random() * 0.65 * W,
+    startY: 0.02 * H + Math.random() * 0.2 * H,
+    mx: 150 + Math.random() * 250,
+    my: 80 + Math.random() * 160,
+    progress: -(Math.random() * 3),
+    speed: 0.006 + Math.random() * 0.004,
+    delay: Math.random() * 5,
+    particles,
+  }
+}
+
+const STARS: Star[] = STAR_LAYERS.flatMap((L, li) =>
+  Array.from({ length: L.count }, () => ({
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    r: L.size,
+    phase: Math.random() * Math.PI * 2,
+    speed: L.speed * (0.7 + Math.random() * 0.6),
+    depth: li,
+    color: L.color,
+    glow: L.glow,
+  }))
+)
+
+const SHOOTERS: Shooter[] = Array.from({ length: 8 }, createShooter)
 
 export default function ShootingStars() {
   const [tick, setTick] = useState(0)
+  const shootersRef = useRef(SHOOTERS)
 
   useEffect(() => {
     let running = true
-    let last = performance.now()
-    const loop = (now: number) => {
+    const loop = () => {
       if (!running) return
-      const dt = now - last
-      if (dt > 30) {
-        setTick((t) => t + 1)
-        last = now
+      const shooters = shootersRef.current
+      for (let i = 0; i < shooters.length; i++) {
+        const s = shooters[i]
+        s.progress += s.speed
+        if (s.progress > 1.2) {
+          Object.assign(s, createShooter())
+          s.progress = -s.delay
+        }
       }
+      setTick((t) => t + 1)
       requestAnimationFrame(loop)
     }
     requestAnimationFrame(loop)
@@ -76,75 +108,131 @@ export default function ShootingStars() {
   return (
     <Svg width="100%" height="100%" viewBox={`0 0 ${W} ${H}`}>
       <Defs>
-        <RadialGradient id="nebula1" cx="50%" cy="50%" r="50%">
-          <Stop offset="0%" stopColor="rgba(100,255,218,0.08)" />
-          <Stop offset="70%" stopColor="transparent" />
+        <RadialGradient id="bgStar" cx="50%" cy="40%" r="70%">
+          <Stop offset="0%" stopColor="#0b1225" />
+          <Stop offset="50%" stopColor="#070a18" />
+          <Stop offset="100%" stopColor="#040610" />
         </RadialGradient>
-        <RadialGradient id="nebula2" cx="50%" cy="50%" r="50%">
+        <RadialGradient id="nebA" cx="50%" cy="50%" r="50%">
           <Stop offset="0%" stopColor="rgba(100,255,218,0.06)" />
           <Stop offset="70%" stopColor="transparent" />
         </RadialGradient>
+        <RadialGradient id="nebB" cx="50%" cy="50%" r="50%">
+          <Stop offset="0%" stopColor="rgba(80,200,255,0.05)" />
+          <Stop offset="70%" stopColor="transparent" />
+        </RadialGradient>
+        <RadialGradient id="nebC" cx="50%" cy="50%" r="50%">
+          <Stop offset="0%" stopColor="rgba(100,180,255,0.04)" />
+          <Stop offset="70%" stopColor="transparent" />
+        </RadialGradient>
       </Defs>
-      <Rect width={W} height={H} fill="#060816" />
+
+      <Rect width={W} height={H} fill="url(#bgStar)" />
+
+      {/* Milky way dust */}
+      <Rect
+        x={0} y={H * 0.15} width={W} height={H * 0.35}
+        fill="rgba(100,180,255,0.015)"
+        opacity={0.6}
+        transform={`rotate(-8, ${W / 2}, ${H * 0.325})`}
+      />
 
       {STARS.map((s, i) => {
         const cx = (s.x / 100) * W
         const cy = (s.y / 100) * H
-        const fill = s.layer === 'medium'
-          ? 'rgba(100,255,218,0.9)'
-          : '#fff'
-        const baseOpacity = s.layer === 'tiny' ? 0.15 : s.layer === 'medium' ? 0.3 : 0.4
-        const opacity = baseOpacity + (1 - baseOpacity) * (0.5 + 0.5 * Math.sin(time * s.speed + s.phase))
+        const twinkle = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(time * s.speed + s.phase))
+        const parallaxX = Math.sin(time * 0.02 * (s.depth + 1)) * s.depth * 1.5
+        const parallaxY = Math.cos(time * 0.015 * (s.depth + 1)) * s.depth * 0.8
         return (
-          <Circle
-            key={i}
-            cx={cx}
-            cy={cy}
-            r={s.r}
-            fill={fill}
-            opacity={opacity}
-          />
-        )
-      })}
-
-      {SHOOTERS.map((s, i) => {
-        const t = ((time + s.delay) % 3.4) / 3.4
-        const p = Math.min(1, t * 7)
-        if (p <= 0 || p >= 1) return null
-        const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2
-        const dx = 180 * ease
-        const dy = 120 * ease
-        const cx = (s.x / 100) * W + dx
-        const cy = (s.y / 100) * H + dy
-        const alpha = p < 0.04 ? p / 0.04 : p > 0.9 ? (1 - p) / 0.1 : 1
-        const angle = -145 * (Math.PI / 180)
-
-        return (
-          <React.Fragment key={`sh${i}`}>
-            <Circle cx={cx} cy={cy} r={2} fill={`rgba(255,255,255,${alpha * 0.9})`} />
+          <React.Fragment key={i}>
+            {s.glow > 0 && (
+              <Circle
+                cx={cx + parallaxX}
+                cy={cy + parallaxY}
+                r={s.glow}
+                fill={s.color}
+                opacity={twinkle * 0.15}
+              />
+            )}
             <Circle
-              cx={cx} cy={cy} r={8}
-              fill="transparent"
-              stroke={`rgba(100,255,218,${alpha * 0.3})`}
-              strokeWidth={0.5}
-              opacity={alpha * 0.5}
+              cx={cx + parallaxX}
+              cy={cy + parallaxY}
+              r={s.r}
+              fill={s.color}
+              opacity={twinkle}
             />
           </React.Fragment>
         )
       })}
 
-      <Circle
-        cx={W * 0.92} cy={H * 0.04}
-        r={64}
-        fill="url(#nebula1)"
-        opacity={0.4 + 0.4 * Math.sin(time * 0.8)}
-      />
-      <Circle
-        cx={W * 0.12} cy={H * 0.84}
-        r={48}
-        fill="url(#nebula2)"
-        opacity={0.3 + 0.3 * Math.sin(time * 0.6 + 2)}
-      />
+      {/* Nebula clouds */}
+      <Circle cx={W * 0.05} cy={H * 0.05} r={80} fill="url(#nebA)" opacity={0.3 + 0.4 * Math.sin(time * 0.5)} />
+      <Circle cx={W * 0.75} cy={H * 0.6} r={70} fill="url(#nebB)" opacity={0.3 + 0.3 * Math.sin(time * 0.4 + 2)} />
+      <Circle cx={W * 0.4} cy={H * 0.3} r={60} fill="url(#nebC)" opacity={0.3 + 0.3 * Math.sin(time * 0.6 + 1)} />
+
+      {/* Shooting stars */}
+      {shootersRef.current.map((s, i) => {
+        const p = Math.max(0, Math.min(1, s.progress))
+        if (p <= 0 || p >= 1) return null
+        const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2
+        const cx = s.startX + s.mx * ease
+        const cy = s.startY + s.my * ease
+        const alpha = p < 0.04 ? p / 0.04 : p > 0.9 ? (1 - p) / 0.1 : 1
+
+        const angle = Math.atan2(s.my, s.mx)
+
+        return (
+          <React.Fragment key={`sh${i}`}>
+            {/* Particles */}
+            {s.particles.map((pt, j) => {
+              const pDist = pt.x * ease * 0.5
+              const pX = cx + pDist * Math.cos(angle) - pt.y * Math.sin(angle)
+              const pY = cy + pDist * Math.sin(angle) + pt.y * Math.cos(angle)
+              return (
+                <Circle
+                  key={`pt${j}`}
+                  cx={pX}
+                  cy={pY}
+                  r={pt.size}
+                  fill="rgba(100,255,218,0.5)"
+                  opacity={pt.alpha * alpha}
+                />
+              )
+            })}
+
+            {/* Tail */}
+            <Line
+              x1={cx}
+              y1={cy}
+              x2={cx - 80 * Math.cos(angle)}
+              y2={cy - 80 * Math.sin(angle)}
+              stroke={`rgba(100,255,218,${alpha * 0.4})`}
+              strokeWidth={1.5}
+              strokeLinecap="round"
+            />
+
+            {/* Glow ring */}
+            <Circle
+              cx={cx}
+              cy={cy}
+              r={12}
+              fill="transparent"
+              stroke={`rgba(100,255,218,${alpha * 0.2})`}
+              strokeWidth={1}
+              opacity={alpha * 0.6}
+            />
+
+            {/* Head */}
+            <Circle
+              cx={cx}
+              cy={cy}
+              r={2.5}
+              fill="#fff"
+              opacity={alpha * 0.95}
+            />
+          </React.Fragment>
+        )
+      })}
     </Svg>
   )
 }
