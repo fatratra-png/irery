@@ -12,19 +12,11 @@ const SOUNDS = [
   require('../../assets/sound-campfire.mp3'),
   require('../../assets/sound-stream.mp3'),
   require('../../assets/sound-keyboard.mp3'),
-  require('../../assets/sound-jazz.mp3'),
-  require('../../assets/sound-electro.mp3'),
-  require('../../assets/sound-pop.mp3'),
-  require('../../assets/sound-glasses.mp3'),
-  require('../../assets/sound-asmr.mp3'),
-  require('../../assets/sound-birds.mp3'),
-  require('../../assets/sound-cyclone.mp3'),
 ] as const
 
 const LABELS = [
   'Ocean', 'Forest', 'Lo-fi', 'Waves', 'Thunder',
-  'Campfire', 'Stream', 'Keyboard', 'Jazz', 'Electro',
-  'Pop', 'Glasses', 'ASMR', 'Birds', 'Cyclone',
+  'Campfire', 'Stream', 'Keyboard',
 ] as const
 
 export function getCurrentSoundLabel(): string {
