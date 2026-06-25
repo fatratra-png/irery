@@ -11,7 +11,7 @@ export default function HomeScreen({ onBegin }: HomeScreenProps) {
       <View style={styles.content}>
         <Text style={styles.title}>inUrZone</Text>
         <Text style={styles.subtitle}>Peaceful Rain Experience</Text>
-        <Text style={styles.description}>Immerse yourself in calming rainfall and gentle sounds</Text>
+        <Text style={styles.description}>Immerse yourself in calming rainfall, gentle sounds, and timed shower sessions</Text>
       </View>
 
       <Pressable 
