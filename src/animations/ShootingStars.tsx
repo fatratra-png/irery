@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Dimensions, Animated } from 'react-native'
+import { Dimensions } from 'react-native'
 import Svg, { Circle, Defs, RadialGradient, Stop, Rect, Line } from 'react-native-svg'
 
 const { width: W, height: H } = Dimensions.get('window')
@@ -36,9 +36,9 @@ interface Shooter {
 const STAR_LAYERS = [
   { count: 80, size: 0.5, speed: 0.3, color: '#fff', glow: 0 },
   { count: 50, size: 1, speed: 0.5, color: '#fff', glow: 0 },
-  { count: 30, size: 1.5, speed: 0.7, color: 'rgba(180,255,240,0.9)', glow: 4 },
-  { count: 15, size: 2, speed: 0.9, color: '#fff', glow: 6 },
-  { count: 8, size: 2.5, speed: 1.2, color: 'rgba(100,255,218,0.95)', glow: 8 },
+  { count: 30, size: 1.5, speed: 0.7, color: 'rgba(255,255,255,0.85)', glow: 3 },
+  { count: 15, size: 2, speed: 0.9, color: '#fff', glow: 5 },
+  { count: 8, size: 2.5, speed: 1.2, color: 'rgba(255,255,255,0.95)', glow: 6 },
 ]
 
 function createShooter(): Shooter {
@@ -109,20 +109,20 @@ export default function ShootingStars() {
     <Svg width="100%" height="100%" viewBox={`0 0 ${W} ${H}`}>
       <Defs>
         <RadialGradient id="bgStar" cx="50%" cy="40%" r="70%">
-          <Stop offset="0%" stopColor="#0b1225" />
-          <Stop offset="50%" stopColor="#070a18" />
-          <Stop offset="100%" stopColor="#040610" />
+          <Stop offset="0%" stopColor="#080808" />
+          <Stop offset="50%" stopColor="#040404" />
+          <Stop offset="100%" stopColor="#000000" />
         </RadialGradient>
         <RadialGradient id="nebA" cx="50%" cy="50%" r="50%">
-          <Stop offset="0%" stopColor="rgba(100,255,218,0.06)" />
+          <Stop offset="0%" stopColor="rgba(255,255,255,0.025)" />
           <Stop offset="70%" stopColor="transparent" />
         </RadialGradient>
         <RadialGradient id="nebB" cx="50%" cy="50%" r="50%">
-          <Stop offset="0%" stopColor="rgba(80,200,255,0.05)" />
+          <Stop offset="0%" stopColor="rgba(255,255,255,0.018)" />
           <Stop offset="70%" stopColor="transparent" />
         </RadialGradient>
         <RadialGradient id="nebC" cx="50%" cy="50%" r="50%">
-          <Stop offset="0%" stopColor="rgba(100,180,255,0.04)" />
+          <Stop offset="0%" stopColor="rgba(255,255,255,0.012)" />
           <Stop offset="70%" stopColor="transparent" />
         </RadialGradient>
       </Defs>
@@ -132,7 +132,7 @@ export default function ShootingStars() {
       {/* Milky way dust */}
       <Rect
         x={0} y={H * 0.15} width={W} height={H * 0.35}
-        fill="rgba(100,180,255,0.015)"
+        fill="rgba(255,255,255,0.008)"
         opacity={0.6}
         transform={`rotate(-8, ${W / 2}, ${H * 0.325})`}
       />
@@ -194,7 +194,7 @@ export default function ShootingStars() {
                   cx={pX}
                   cy={pY}
                   r={pt.size}
-                  fill="rgba(100,255,218,0.5)"
+                  fill="rgba(255,255,255,0.4)"
                   opacity={pt.alpha * alpha}
                 />
               )
@@ -206,7 +206,7 @@ export default function ShootingStars() {
               y1={cy}
               x2={cx - 80 * Math.cos(angle)}
               y2={cy - 80 * Math.sin(angle)}
-              stroke={`rgba(100,255,218,${alpha * 0.4})`}
+              stroke={`rgba(255,255,255,${alpha * 0.3})`}
               strokeWidth={1.5}
               strokeLinecap="round"
             />
@@ -217,7 +217,7 @@ export default function ShootingStars() {
               cy={cy}
               r={12}
               fill="transparent"
-              stroke={`rgba(100,255,218,${alpha * 0.2})`}
+              stroke={`rgba(255,255,255,${alpha * 0.15})`}
               strokeWidth={1}
               opacity={alpha * 0.6}
             />

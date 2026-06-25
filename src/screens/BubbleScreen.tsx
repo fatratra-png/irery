@@ -1,6 +1,7 @@
-import React from 'react'
-import { View, Text, StyleSheet, StatusBar } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, Animated, Easing, Dimensions } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { Leaf, Wind } from 'lucide-react-native'
 import OceanWaves from '../animations/OceanWaves'
 import RainDrops from '../animations/RainDrops'
 import ShootingStars from '../animations/ShootingStars'
@@ -8,18 +9,74 @@ import ExitButton from '../components/ExitButton'
 import type { AnimationType } from '../types'
 import { getYouTubeUrl, ANIM_LABELS, VIDEO_IDS } from '../utils/audio'
 
+const { width: W } = Dimensions.get('window')
+
 interface Props {
   animation: AnimationType
   onExit: () => void
 }
 
 export default function BubbleScreen({ animation, onExit }: Props) {
+  const [showBreath, setShowBreath] = useState(false)
+  const [breathText, setBreathText] = useState('Inhale')
+  const breathScale = useRef(new Animated.Value(1.0)).current
+
   const AnimComponent =
     animation === 'ocean'
       ? OceanWaves
       : animation === 'rain'
       ? RainDrops
       : ShootingStars
+
+  useEffect(() => {
+    let interval: any = null
+
+    if (showBreath) {
+      breathScale.setValue(1.0)
+      
+      const animLoop = Animated.loop(
+        Animated.sequence([
+          // Inhale (4s)
+          Animated.timing(breathScale, {
+            toValue: 1.4,
+            duration: 4000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+          }),
+          // Hold (4s)
+          Animated.delay(4000),
+          // Exhale (4s)
+          Animated.timing(breathScale, {
+            toValue: 1.0,
+            duration: 4000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+          }),
+          // Hold (4s)
+          Animated.delay(4000),
+        ])
+      )
+      animLoop.start()
+
+      const startTime = Date.now()
+      const texts = ['Inhale', 'Hold', 'Exhale', 'Hold']
+      setBreathText(texts[0])
+
+      interval = setInterval(() => {
+        const elapsed = (Date.now() - startTime) % 16000
+        const phase = Math.floor(elapsed / 4000)
+        setBreathText(texts[phase])
+      }, 100)
+
+      return () => {
+        animLoop.stop()
+        if (interval) clearInterval(interval)
+      }
+    } else {
+      breathScale.stopAnimation()
+      breathScale.setValue(1.0)
+    }
+  }, [showBreath, breathScale])
 
   return (
     <View style={styles.container}>
@@ -41,22 +98,39 @@ export default function BubbleScreen({ animation, onExit }: Props) {
         />
       </View>
 
-      {/* HUD */}
+      {/* Central 3D-like Glass Breathing Guide */}
+      {showBreath && (
+        <View style={styles.breathingContainer} pointerEvents="none">
+          <Animated.View
+            style={[
+              styles.breathingBubble,
+              { transform: [{ scale: breathScale }] }
+            ]}
+          >
+            {/* 3D Refractive Glare sheen */}
+            <View style={styles.bubbleGlare} />
+            <Text style={styles.breathingText}>{breathText}</Text>
+          </Animated.View>
+        </View>
+      )}
+
+      {/* HUD Overlay */}
       <View style={styles.hud}>
         <View style={styles.hudLeft}>
-          <View style={styles.hudLogo}>
-            <View style={styles.hudBubble} />
-            <View style={[styles.hudBubble, styles.hudBubbleSm, { top: 6, left: 14 }]} />
-            <View style={[styles.hudBubble, styles.hudBubbleXs, { top: 4, right: 6 }]} />
-          </View>
+          <Leaf size={16} color="rgba(255,255,255,0.3)" />
           <Text style={styles.hudLabel}>{ANIM_LABELS[animation]}</Text>
         </View>
         <View style={styles.hudRight}>
-          <View style={styles.audioIndicator}>
-            <View style={styles.audioBar1} />
-            <View style={styles.audioBar2} />
-            <View style={styles.audioBar3} />
-          </View>
+          <TouchableOpacity
+            onPress={() => setShowBreath(!showBreath)}
+            activeOpacity={0.7}
+            style={[styles.hudBtn, showBreath && styles.hudBtnActive]}
+          >
+            <Wind
+              size={18}
+              color={showBreath ? '#ffffff' : 'rgba(255,255,255,0.4)'}
+            />
+          </TouchableOpacity>
           <ExitButton onPress={onExit} />
         </View>
       </View>
@@ -67,7 +141,7 @@ export default function BubbleScreen({ animation, onExit }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#060e20',
+    backgroundColor: '#000000',
   },
   animContainer: {
     ...StyleSheet.absoluteFillObject,
@@ -88,6 +162,46 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: 'transparent',
   },
+  breathingContainer: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 5,
+  },
+  breathingBubble: {
+    width: W * 0.44,
+    height: W * 0.44,
+    borderRadius: (W * 0.44) / 2,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255, 255, 255, 0.25)',
+    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#ffffff',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    position: 'relative',
+    overflow: 'hidden',
+    elevation: 4,
+  },
+  bubbleGlare: {
+    position: 'absolute',
+    top: 12,
+    left: 24,
+    width: W * 0.12,
+    height: W * 0.06,
+    borderRadius: (W * 0.06),
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    transform: [{ rotate: '-15deg' }],
+  },
+  breathingText: {
+    fontSize: 14,
+    fontFamily: 'Nunito_300Light',
+    letterSpacing: 2.5,
+    color: 'rgba(255,255,255,0.65)',
+    textTransform: 'uppercase',
+  },
   hud: {
     position: 'absolute',
     top: 0,
@@ -98,40 +212,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 12,
-    backgroundColor: 'rgba(6,14,32,0.5)',
+    paddingTop: 48,
+    paddingBottom: 16,
   },
   hudLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-  },
-  hudLogo: {
-    width: 28,
-    height: 28,
-    position: 'relative',
-    opacity: 0.5,
-  },
-  hudBubble: {
-    position: 'absolute',
-    top: 4,
-    left: 4,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: 'rgba(255,255,255,0.2)',
-    backgroundColor: 'rgba(255,255,255,0.1)',
-  },
-  hudBubbleSm: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-  },
-  hudBubbleXs: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    backgroundColor: 'rgba(255,255,255,0.02)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.04)',
+    gap: 8,
   },
   hudLabel: {
     fontSize: 11,
@@ -145,31 +238,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  audioIndicator: {
-    width: 20,
-    height: 16,
-    flexDirection: 'row',
+  hudBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 2,
-    opacity: 0.6,
   },
-  audioBar1: {
-    width: 3,
-    height: 10,
-    borderRadius: 1.5,
-    backgroundColor: 'rgba(100,255,218,0.7)',
-  },
-  audioBar2: {
-    width: 3,
-    height: 14,
-    borderRadius: 1.5,
-    backgroundColor: 'rgba(100,255,218,0.5)',
-  },
-  audioBar3: {
-    width: 3,
-    height: 8,
-    borderRadius: 1.5,
-    backgroundColor: 'rgba(100,255,218,0.3)',
+  hudBtnActive: {
+    borderColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
   },
 })

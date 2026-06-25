@@ -1,24 +1,21 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, Pressable } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { useFonts, ChelaOne_400Regular } from '@expo-google-fonts/chela-one'
-import { Nunito_300Light, Nunito_400Regular } from '@expo-google-fonts/nunito'
+import { useFonts, Outfit_300Light, Outfit_400Regular } from '@expo-google-fonts/outfit'
 import HomeScreen from './src/screens/HomeScreen'
-import BubbleScreen from './src/screens/BubbleScreen'
-import type { AnimationType, ScreenType } from './src/types'
+import RainScreen from './src/screens/RainScreen'
+
+type ScreenType = 'home' | 'rain'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    ChelaOne_400Regular,
-    Nunito_300Light,
-    Nunito_400Regular,
+    Outfit_300Light,
+    Outfit_400Regular,
   })
   const [screen, setScreen] = useState<ScreenType>('home')
-  const [animation, setAnimation] = useState<AnimationType>('ocean')
 
-  const handleEnter = (anim: AnimationType) => {
-    setAnimation(anim)
-    setScreen('bubble')
+  const handleBegin = () => {
+    setScreen('rain')
   }
 
   const handleExit = () => {
@@ -28,7 +25,7 @@ export default function App() {
   if (!fontsLoaded) {
     return (
       <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
-        <ActivityIndicator color="rgba(100,255,218,0.5)" size="large" />
+        <ActivityIndicator color="rgba(255,255,255,0.4)" size="large" />
       </View>
     )
   }
@@ -37,9 +34,9 @@ export default function App() {
     <SafeAreaProvider>
       <View style={styles.container}>
         {screen === 'home' ? (
-          <HomeScreen onEnter={handleEnter} />
+          <HomeScreen onBegin={handleBegin} />
         ) : (
-          <BubbleScreen animation={animation} onExit={handleExit} />
+          <RainScreen onExit={handleExit} />
         )}
       </View>
     </SafeAreaProvider>
@@ -49,6 +46,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#060e20',
+    backgroundColor: '#000000',
   },
 })

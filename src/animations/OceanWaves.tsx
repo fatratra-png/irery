@@ -5,11 +5,11 @@ import Svg, { Path, Defs, LinearGradient, Stop, Rect } from 'react-native-svg'
 const { width: W, height: H } = Dimensions.get('window')
 
 const LAYERS = [
-  { bottom: 0.82, height: 28, amp: 10, freq: 2.2, speed: 22, id: 'w0', color: 'rgba(60,220,200,0.12)' },
-  { bottom: 0.65, height: 36, amp: 16, freq: 2.8, speed: 17, id: 'w1', color: 'rgba(80,240,210,0.18)' },
-  { bottom: 0.45, height: 44, amp: 22, freq: 3.3, speed: 13, id: 'w2', color: 'rgba(100,255,218,0.25)' },
-  { bottom: 0.22, height: 52, amp: 30, freq: 3.8, speed: 9, id: 'w3', color: 'rgba(60,230,200,0.32)' },
-  { bottom: 0, height: 60, amp: 40, freq: 4.2, speed: 6.5, id: 'w4', color: 'rgba(100,255,218,0.4)' },
+  { bottom: 0.82, height: 28, amp: 10, freq: 2.2, speed: 22, id: 'w0', color: 'rgba(255,255,255,0.03)' },
+  { bottom: 0.65, height: 36, amp: 16, freq: 2.8, speed: 17, id: 'w1', color: 'rgba(255,255,255,0.05)' },
+  { bottom: 0.45, height: 44, amp: 22, freq: 3.3, speed: 13, id: 'w2', color: 'rgba(255,255,255,0.07)' },
+  { bottom: 0.22, height: 52, amp: 30, freq: 3.8, speed: 9, id: 'w3', color: 'rgba(255,255,255,0.04)' },
+  { bottom: 0, height: 60, amp: 40, freq: 4.2, speed: 6.5, id: 'w4', color: 'rgba(255,255,255,0.08)' },
 ]
 
 function genPath(amp: number, freq: number): string {
@@ -79,10 +79,10 @@ export default function OceanWaves() {
       <Svg width="100%" height="100%" viewBox={`0 0 ${W} ${H}`}>
         <Defs>
           <LinearGradient id="obg3d" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0%" stopColor="#050d1a" />
-            <Stop offset="35%" stopColor="#0a1628" />
-            <Stop offset="65%" stopColor="#112240" />
-            <Stop offset="100%" stopColor="#0a0e27" />
+            <Stop offset="0%" stopColor="#080808" />
+            <Stop offset="35%" stopColor="#040404" />
+            <Stop offset="65%" stopColor="#020202" />
+            <Stop offset="100%" stopColor="#000000" />
           </LinearGradient>
         </Defs>
         <Rect width={W} height={H} fill="url(#obg3d)" />
@@ -137,9 +137,9 @@ export default function OceanWaves() {
               backgroundColor: 'rgba(255,255,255,0.7)',
               opacity,
               transform: [{ scale }],
-              shadowColor: 'rgba(100,255,218,0.4)',
+              shadowColor: '#ffffff',
               shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 1,
+              shadowOpacity: 0.8,
               shadowRadius: s.size * 3,
               elevation: 5,
             }}
