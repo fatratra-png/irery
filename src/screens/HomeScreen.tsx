@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { rs } from '../utils/responsive'
 
 interface HomeScreenProps {
   onBegin: () => void
@@ -11,7 +12,7 @@ export default function HomeScreen({ onBegin }: HomeScreenProps) {
       <View style={styles.content}>
         <Text style={styles.title}>inUrZone</Text>
         <Text style={styles.subtitle}>Peaceful Rain Experience</Text>
-        <Text style={styles.description}>Immerse yourself in calming rainfall, gentle sounds, and timed shower sessions</Text>
+        <Text style={styles.description}>Immerse yourself in calming rainfall and gentle sounds</Text>
       </View>
 
       <Pressable 
@@ -31,51 +32,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: rs(24),
+    paddingVertical: rs(40),
   },
   content: {
     alignItems: 'center',
-    marginTop: 80,
+    marginBottom: rs(48),
   },
   title: {
-    fontSize: 48,
+    fontSize: rs(48),
     fontFamily: 'Outfit_300Light',
     color: '#ffffff',
-    marginBottom: 12,
+    marginBottom: rs(12),
     letterSpacing: 2,
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: rs(12),
     fontFamily: 'Outfit_400Regular',
     color: 'rgba(255, 255, 255, 0.4)',
     letterSpacing: 2,
-    marginBottom: 12,
+    marginBottom: rs(12),
     textTransform: 'uppercase',
   },
   description: {
-    fontSize: 13,
+    fontSize: rs(13),
     fontFamily: 'Outfit_300Light',
     color: 'rgba(255, 255, 255, 0.25)',
     maxWidth: 280,
     textAlign: 'center',
   },
   button: {
-    paddingHorizontal: 48,
-    paddingVertical: 14,
-    borderRadius: 8,
+    paddingHorizontal: rs(48),
+    paddingVertical: rs(14),
+    borderRadius: rs(8),
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    marginBottom: 80,
   },
   buttonPressed: {
     transform: [{ scale: 0.95 }],
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: rs(16),
     fontFamily: 'Outfit_400Regular',
     color: '#ffffff',
     letterSpacing: 1.5,
