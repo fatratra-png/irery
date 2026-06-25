@@ -57,7 +57,9 @@ export async function playRainAudio(index?: number) {
     await soundObject.setIsLoopingAsync(true)
     await soundObject.playAsync()
   } catch (error) {
-    console.error('Error playing audio:', error)
+    console.error('Error playing audio, skipping to next:', error)
+    currentIndex = (currentIndex + 1) % SOUNDS.length
+    await playRainAudio()
   }
 }
 

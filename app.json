@@ -30,7 +30,8 @@
     "plugins": [
       "expo-asset",
       "expo-font",
-      "expo-av"
+      "expo-av",
+      "expo-web-browser"
     ]
   }
 }

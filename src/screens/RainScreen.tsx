@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { View, StyleSheet, Pressable, Text, Animated, StatusBar } from 'react-native'
+import * as WebBrowser from 'expo-web-browser'
 import RainDrops from '../animations/RainDrops'
 import { playRainAudio, stopRainAudio, nextSound, getCurrentSoundLabel } from '../utils/audio'
 import { rs } from '../utils/responsive'
+
+const LO_FI_PLAYLIST_URL = 'https://youtube.com/playlist?list=PL03A5EE83310C78D6'
 
 interface RainScreenProps {
   onExit: () => void
@@ -76,6 +79,12 @@ export default function RainScreen({ onExit }: RainScreenProps) {
     setSoundLabel(getCurrentSoundLabel())
   }, [])
 
+  const handleOpenPlaylist = useCallback(async () => {
+    stopRainAudio()
+    await WebBrowser.openBrowserAsync(LO_FI_PLAYLIST_URL)
+    setSoundLabel(getCurrentSoundLabel())
+  }, [])
+
   return (
     <View style={styles.container}>
       <StatusBar hidden />
@@ -94,6 +103,12 @@ export default function RainScreen({ onExit }: RainScreenProps) {
           onPress={handleNextSound}
         >
           <Text style={styles.label}>{soundLabel}</Text>
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
+          onPress={handleOpenPlaylist}
+        >
+          <Text style={styles.label}>Playlist</Text>
         </Pressable>
         <Pressable
           style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
