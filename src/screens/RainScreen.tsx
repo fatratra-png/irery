@@ -1,11 +1,8 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { View, StyleSheet, Pressable, Text, Animated, StatusBar } from 'react-native'
-import * as WebBrowser from 'expo-web-browser'
 import RainDrops from '../animations/RainDrops'
-import { playRainAudio, stopRainAudio, nextSound, getCurrentSoundLabel } from '../utils/audio'
+import { playRainAudio, stopRainAudio, nextSound, previousSound } from '../utils/audio'
 import { rs } from '../utils/responsive'
-
-const LO_FI_PLAYLIST_URL = 'https://youtube.com/playlist?list=PL03A5EE83310C78D6'
 
 interface RainScreenProps {
   onExit: () => void
@@ -44,7 +41,6 @@ function useDate(): string {
 export default function RainScreen({ onExit }: RainScreenProps) {
   const time = useClock()
   const date = useDate()
-  const [soundLabel, setSoundLabel] = useState(getCurrentSoundLabel())
   const pulseAnim = useRef(new Animated.Value(1)).current
   const fadeAnim = useRef(new Animated.Value(0)).current
 
@@ -74,15 +70,12 @@ export default function RainScreen({ onExit }: RainScreenProps) {
     return () => pulse.stop()
   }, [])
 
-  const handleNextSound = useCallback(async () => {
-    await nextSound()
-    setSoundLabel(getCurrentSoundLabel())
+  const handlePrevSound = useCallback(async () => {
+    await previousSound()
   }, [])
 
-  const handleOpenPlaylist = useCallback(async () => {
-    stopRainAudio()
-    await WebBrowser.openBrowserAsync(LO_FI_PLAYLIST_URL)
-    setSoundLabel(getCurrentSoundLabel())
+  const handleNextSound = useCallback(async () => {
+    await nextSound()
   }, [])
 
   return (
@@ -100,15 +93,15 @@ export default function RainScreen({ onExit }: RainScreenProps) {
       <View style={styles.bottomBar}>
         <Pressable
           style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
-          onPress={handleNextSound}
+          onPress={handlePrevSound}
         >
-          <Text style={styles.label}>{soundLabel}</Text>
+          <Text style={styles.label}>◂ Prev</Text>
         </Pressable>
         <Pressable
           style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
-          onPress={handleOpenPlaylist}
+          onPress={handleNextSound}
         >
-          <Text style={styles.label}>Playlist</Text>
+          <Text style={styles.label}>Next ▸</Text>
         </Pressable>
         <Pressable
           style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
@@ -138,18 +131,18 @@ const styles = StyleSheet.create({
     zIndex: 5,
   },
   clock: {
-    fontSize: rs(120),
-    fontFamily: 'Outfit_400Regular',
+    fontSize: rs(96),
+    fontFamily: 'Outfit_600SemiBold',
     color: 'rgba(255, 255, 255, 0.85)',
-    letterSpacing: 6,
+    letterSpacing: 4,
   },
   date: {
-    fontSize: rs(18),
-    fontFamily: 'Outfit_400Regular',
+    fontSize: rs(14),
+    fontFamily: 'Outfit_500Medium',
     color: 'rgba(255, 255, 255, 0.4)',
-    letterSpacing: 2.5,
+    letterSpacing: 2,
     textTransform: 'uppercase',
-    marginTop: rs(12),
+    marginTop: rs(8),
   },
   bottomBar: {
     position: 'absolute',
@@ -174,10 +167,10 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.95 }],
   },
   label: {
-    fontSize: rs(11),
-    fontFamily: 'Outfit_300Light',
+    fontSize: rs(10),
+    fontFamily: 'Outfit_500Medium',
     color: 'rgba(255, 255, 255, 0.35)',
-    letterSpacing: 1.5,
+    letterSpacing: 1.2,
     textTransform: 'uppercase',
   },
 })

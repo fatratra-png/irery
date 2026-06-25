@@ -119,12 +119,12 @@ export default function RainDrops() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#00000000',
     overflow: 'hidden',
   },
   background: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#1a1a2a',
+    backgroundColor: '#00000000',
     zIndex: 0,
   },
   rainContainer: {
