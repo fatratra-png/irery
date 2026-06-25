@@ -32,6 +32,8 @@ export function getSoundsCount(): number {
   return SOUNDS.length
 }
 
+let retryCount = 0
+
 export async function playRainAudio(index?: number) {
   try {
     if (index !== undefined) {
@@ -40,6 +42,7 @@ export async function playRainAudio(index?: number) {
 
     if (soundObject) {
       await soundObject.unloadAsync()
+      soundObject = null
     }
 
     await Audio.setAudioModeAsync({
@@ -53,8 +56,15 @@ export async function playRainAudio(index?: number) {
     await soundObject.loadAsync(SOUNDS[currentIndex])
     await soundObject.setIsLoopingAsync(true)
     await soundObject.playAsync()
+    retryCount = 0
   } catch (error) {
-    console.error('Error playing audio, skipping to next:', error)
+    retryCount++
+    if (retryCount >= SOUNDS.length * 2) {
+      retryCount = 0
+      console.error('Audio: giving up after too many retries')
+      return
+    }
+    soundObject = null
     currentIndex = (currentIndex + 1) % SOUNDS.length
     await playRainAudio()
   }
