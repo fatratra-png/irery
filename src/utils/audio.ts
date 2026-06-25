@@ -7,9 +7,13 @@ const SOUNDS = [
   require('../../assets/sound-ocean.mp3'),
   require('../../assets/sound-forest.mp3'),
   require('../../assets/sound-lofi.mp3'),
+  require('../../assets/sound-waves.mp3'),
+  require('../../assets/sound-thunder.mp3'),
+  require('../../assets/sound-campfire.mp3'),
+  require('../../assets/sound-stream.mp3'),
 ] as const
 
-const LABELS = ['Ocean', 'Forest', 'Lo-fi'] as const
+const LABELS = ['Ocean', 'Forest', 'Lo-fi', 'Waves', 'Thunder', 'Campfire', 'Stream'] as const
 
 export function getCurrentSoundLabel(): string {
   return LABELS[currentIndex]
