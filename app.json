@@ -13,18 +13,26 @@
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": [
+          "audio",
           "audio"
         ]
-      }
+      },
+      "bundleIdentifier": "com.anonymous.inurzone"
     },
     "android": {
       "adaptiveIcon": {
-      "backgroundColor": "#060e20"
-      }
+        "backgroundColor": "#060e20"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.anonymous.inurzone"
     },
     "plugins": [
       "expo-asset",
-      "expo-font"
+      "expo-font",
+      "expo-av"
     ]
   }
 }

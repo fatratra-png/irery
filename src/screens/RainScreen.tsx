@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { View, StyleSheet, Pressable, Text } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import RainDrops from '../animations/RainDrops'
-import { playRainAudio, stopRainAudio } from '../utils/audio'
+import { playRainAudio, stopRainAudio, nextSound, getCurrentSoundLabel } from '../utils/audio'
 
 interface RainScreenProps {
   onExit: () => void
@@ -10,6 +10,7 @@ interface RainScreenProps {
 
 export default function RainScreen({ onExit }: RainScreenProps) {
   const insets = useSafeAreaInsets()
+  const [soundLabel, setSoundLabel] = useState(getCurrentSoundLabel())
 
   useEffect(() => {
     playRainAudio()
@@ -18,13 +19,26 @@ export default function RainScreen({ onExit }: RainScreenProps) {
     }
   }, [])
 
+  const handleNextSound = useCallback(async () => {
+    await nextSound()
+    setSoundLabel(getCurrentSoundLabel())
+  }, [])
+
   return (
     <View style={styles.container}>
       <RainDrops />
       
       {/* Top HUD */}
       <View style={[styles.topBar, { paddingTop: insets.top }]}>
-        <Text style={styles.label}>Peaceful Rain</Text>
+        <Pressable
+          style={({ pressed }) => [
+            styles.soundButton,
+            pressed && styles.soundButtonPressed
+          ]}
+          onPress={handleNextSound}
+        >
+          <Text style={styles.label}>{soundLabel}</Text>
+        </Pressable>
         <Pressable 
           style={({ pressed }) => [
             styles.exitButton,
@@ -64,6 +78,18 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.35)',
     letterSpacing: 1.5,
     textTransform: 'uppercase',
+  },
+  soundButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+  },
+  soundButtonPressed: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    transform: [{ scale: 0.95 }],
   },
   exitButton: {
     paddingHorizontal: 12,

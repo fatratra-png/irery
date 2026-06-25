@@ -1,6 +1,19 @@
 import { Audio } from 'expo-av'
 
 let soundObject: Audio.Sound | null = null
+let currentIndex = 0
+
+const SOUNDS = [
+  require('../../assets/sound-ocean.mp3'),
+  require('../../assets/sound-forest.mp3'),
+  require('../../assets/sound-lofi.mp3'),
+] as const
+
+const LABELS = ['Ocean', 'Forest', 'Lo-fi'] as const
+
+export function getCurrentSoundLabel(): string {
+  return LABELS[currentIndex]
+}
 
 export async function playRainAudio() {
   try {
@@ -16,12 +29,17 @@ export async function playRainAudio() {
     })
 
     soundObject = new Audio.Sound()
-    await soundObject.loadAsync(require('../../assets/rain-sound.mp3'))
+    await soundObject.loadAsync(SOUNDS[currentIndex])
     await soundObject.setIsLoopingAsync(true)
     await soundObject.playAsync()
   } catch (error) {
     console.error('Error playing audio:', error)
   }
+}
+
+export async function nextSound() {
+  currentIndex = (currentIndex + 1) % SOUNDS.length
+  await playRainAudio()
 }
 
 export async function stopRainAudio() {
