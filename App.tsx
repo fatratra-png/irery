@@ -17,7 +17,7 @@ export default function App() {
   const handleBegin = () => {
     setScreen('rain')
   }
-
+   
   const handleExit = () => {
     setScreen('home')
   }

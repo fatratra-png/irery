@@ -53,6 +53,9 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
   },
   subtitle: {
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
     fontSize: rs(11),
     fontFamily: "Outfit_500Medium",
     color: "rgba(255, 255, 255, 0.4)",
@@ -61,11 +64,14 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   description: {
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
     fontSize: rs(11),
     fontFamily: "Outfit_500Medium",
     color: "rgba(255, 255, 255, 0.25)",
     maxWidth: 260,
-    textAlign: "center",
+    letterSpacing: 1.2,
   },
   button: {
     paddingHorizontal: rs(40),
