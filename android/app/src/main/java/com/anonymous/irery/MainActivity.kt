@@ -1,4 +1,4 @@
-package com.anonymous.inurzone
+package com.anonymous.irery
 
 import android.os.Build
 import android.os.Bundle

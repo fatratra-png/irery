@@ -10,7 +10,7 @@ export default function HomeScreen({ onBegin }: HomeScreenProps) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>inUrZone</Text>
+        <Text style={styles.title}>Irery</Text>
         <Text style={styles.subtitle}>
           Wanna get into your your own bubble ?
         </Text>
