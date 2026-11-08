@@ -2,36 +2,56 @@
   "expo": {
     "name": "Irery",
     "slug": "irery",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
-    "splash": {
-      "backgroundColor": "#0a0e27"
-    },
+    "backgroundColor": "#0b0f1a",
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.irery",
       "infoPlist": {
         "UIBackgroundModes": [
           "audio"
         ]
-      },
-      "bundleIdentifier": "com.anonymous.irery"
+      }
     },
     "android": {
+      "package": "com.anonymous.irery",
       "adaptiveIcon": {
-        "backgroundColor": "#060e20"
+        "backgroundColor": "#0b0f1a"
       },
       "permissions": [
         "android.permission.MODIFY_AUDIO_SETTINGS"
       ],
-      "package": "com.anonymous.irery"
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "plugins": [
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
       "expo-asset",
       "expo-font",
-      "expo-av",
-      "expo-web-browser"
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/icon.png",
+          "imageWidth": 160,
+          "resizeMode": "contain",
+          "backgroundColor": "#0b0f1a"
+        }
+      ]
     ]
   }
 }
