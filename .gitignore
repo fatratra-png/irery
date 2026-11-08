@@ -11,3 +11,7 @@ npm-debug.*
 web-build/
 .env
 .opencode/
+
+# Native projects are generated on demand (Expo CNG): npx expo prebuild / expo run:android
+/android
+/ios
