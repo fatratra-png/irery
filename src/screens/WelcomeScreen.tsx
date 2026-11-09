@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Glass, GlassOrb, font, Touchable } from '../components/ui';
+import { Orb } from '../components/Orb';
+import { Glass, font, Touchable } from '../components/ui';
 import { SceneStack } from '../scenes/ShaderScene';
 import type { Sound } from '../sounds';
 
@@ -19,14 +20,14 @@ export function WelcomeScreen({ sound, onBegin }: { sound: Sound; onBegin: () =>
       <SceneStack soundId={sound.id} mood={sound.mood} />
       <Animated.View style={[styles.content, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 28 }, style]}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <GlassOrb mood={sound.mood} playing size={150}>
+          <Orb mood={sound.mood} playing size={160}>
             <Text style={styles.title} accessibilityRole="header">Irery</Text>
-          </GlassOrb>
+          </Orb>
         </View>
         <Glass radius={30} style={styles.card}>
           <Text style={styles.tagline}>Your own quiet bubble</Text>
           <Text style={styles.body}>Nineteen soundscapes and living scenes, entirely offline. Breathe in, breathe out.</Text>
-          <Touchable onPress={onBegin} label="Begin">
+          <Touchable onPress={onBegin} label="Begin" feedback="medium" scaleTo={0.96}>
             <View style={[styles.button, { backgroundColor: sound.mood.accent }]}>
               <Text style={styles.buttonText}>Begin</Text>
             </View>
