@@ -17,10 +17,12 @@ Irery plays calm soundscapes, fully offline. It has no account, no backend, no A
   - a campfire with sparks, a misty forest with light shafts
   - a starry night with the Milky Way, aurora, drifting clouds and mist
 
-  Scenes are rendered at half resolution to save battery, and they cross-fade with the audio when you switch sounds.
+  Scenes are rendered at half resolution to save battery, and every shader is compiled behind the splash screen, so switching never stalls. When you switch sounds, the new scene spreads out over the old one from where you touched (the card, the side you swiped from), in time with the audio cross-fade.
 - **Visuals that follow the real sound**: each recording's loudness envelope and attacks are analysed once at build time (`scripts/analyze-sounds.py`) and shipped with the app. Lightning strikes on actual thunder claps, ripples open on bowl strikes, sparks fly on fire crackles, and the waves swell with the surf. No microphone permission is needed.
-- **Frosted-glass interface**: the controls and the breathing orb are made of glass; the orb also swells with the loudness of the sound. The blur is real on iOS and web; Android gets a translucent tint instead.
-- **A calm player**: the breathing orb is the play button, the controls fade away after 12 s, and any touch brings them back.
+- **A scene carousel**: swipe up (or tap *Scenes*) to browse every scene as a living card, with parallax and category chips that follow the reel. Tap a card and it grows into the full-screen scene.
+- **An immersive player**: swipe left or right on the scene to change sound; the controls fade away after 12 s, and any touch brings them back.
+- **A liquid-glass orb**, drawn by a shader: its light swirls with the sound, sends a ring out on each attack or tap, breathes at the mood's pace and blends into the next sound's colours. It is the play button.
+- **Springy, tactile controls**: buttons sink under the finger and spring back, with haptic feedback. Only the bottom bar uses a live blur (real on iOS and web, a tint on Android); the other panels use a tint, which keeps the scenes smooth.
 - **Sleep timer** (15–90 min) that fades the sound out over the last 30 seconds.
 - **Background playback**, including on silent mode, with lock-screen info.
 - Remembers the last sound and the volume.
