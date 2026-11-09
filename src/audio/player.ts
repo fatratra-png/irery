@@ -175,4 +175,13 @@ export function setSleepTimer(minutes: number | null) {
   }, 250);
 }
 
+/** Current position (s) in the active loop, used to sync visuals with the audio. */
+export function getPlaybackTime(): number {
+  try {
+    return active?.currentTime ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
 export const SLEEP_OPTIONS = [null, 15, 30, 45, 60, 90] as const;

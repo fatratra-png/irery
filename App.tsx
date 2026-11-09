@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { pause, playSound, restorePrefs, usePlayer } from './src/audio/player';
+import { startReactive, stopReactive } from './src/audio/reactive';
 import { PlayerScreen } from './src/screens/PlayerScreen';
 import { WelcomeScreen } from './src/screens/WelcomeScreen';
 import { soundById } from './src/sounds';
@@ -19,6 +20,8 @@ export default function App() {
 
   useEffect(() => {
     restorePrefs().finally(() => setPrefsLoaded(true));
+    startReactive(); // feeds the scenes with the audio envelope at the playback position
+    return stopReactive;
   }, []);
 
   const ready = fontsLoaded && prefsLoaded;
