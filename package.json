@@ -1,21 +1,24 @@
 {
   "name": "irery",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "index",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "postinstall": "node -e \"require('fs').mkdirSync('public',{recursive:true});require('fs').copyFileSync(require.resolve('canvaskit-wasm/bin/full/canvaskit.wasm'),'public/canvaskit.wasm')\""
   },
   "dependencies": {
     "@expo-google-fonts/outfit": "^0.4.1",
     "@expo/metro-runtime": "~58.0.17",
     "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@shopify/react-native-skia": "2.14.0",
     "expo": "^58.0.23",
     "expo-asset": "~58.0.20",
     "expo-audio": "~58.0.11",
+    "expo-blur": "~58.0.5",
     "expo-constants": "~58.0.15",
     "expo-font": "~58.0.11",
     "expo-haptics": "~58.0.7",
@@ -26,9 +29,11 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-native": "0.88.1",
+    "react-native-reanimated": "4.7.1",
     "react-native-safe-area-context": "~5.11.1",
     "react-native-svg": "15.16.0",
     "react-native-web": "~0.21.4",
+    "react-native-worklets": "0.13.0",
     "zustand": "^5.1.0"
   },
   "devDependencies": {
