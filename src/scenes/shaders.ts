@@ -30,7 +30,7 @@ float noise(float2 p) {
 }
 float fbm(float2 p) {
   float v = 0.0; float a = 0.5;
-  for (int i = 0; i < 5; i++) { v += a * noise(p); p = p * 2.03 + float2(1.7, 9.2); a *= 0.5; }
+  for (int i = 0; i < 4; i++) { v += a * noise(p); p = p * 2.03 + float2(1.7, 9.2); a *= 0.5; }
   return v;
 }
 float3 grad3(float t) { return t < 0.5 ? mix(c0, c1, t * 2.0) : mix(c1, c2, (t - 0.5) * 2.0); }
@@ -267,15 +267,15 @@ half4 main(float2 fc) {
 /* A clear brook: flowing caustics over a pebbly bed.                   */
 /* ------------------------------------------------------------------ */
 export const STREAM = `${COMMON}
-// Animated Voronoi: returns (F1, F2) distances.
+// Voronoi whose points drift slowly (no per-cell jitter): returns (F1, F2).
 float2 voronoi(float2 p, float t) {
   float2 i = floor(p); float2 f = fract(p);
   float f1 = 8.0; float f2 = 8.0;
   for (int y = -1; y <= 1; y++) {
     for (int x = -1; x <= 1; x++) {
       float2 g = float2(float(x), float(y));
-      float2 o = float2(hash(i + g), hash(i + g + 17.0));
-      o = 0.5 + 0.45 * sin(t + 6.2831 * o);
+      float2 h = float2(hash(i + g), hash(i + g + 17.0));
+      float2 o = 0.5 + 0.32 * sin(t * 0.45 + 6.2831 * h);
       float d = length(g + o - f);
       if (d < f1) { f2 = f1; f1 = d; } else if (d < f2) { f2 = d; }
     }
@@ -287,30 +287,33 @@ half4 main(float2 fc) {
   float2 uv = fc / iResolution;
   float aspect = iResolution.x / iResolution.y;
   float2 p = float2(uv.x * aspect, uv.y) * 3.2;
-  float t = iTime * (0.7 + 0.5 * level);
-  float2 flow = float2(t * 0.22, t * 0.04);
+  float t = iTime;
+  // One steady current, flowing down the screen. Time is never multiplied by the
+  // audio level: a varying factor on an ever-growing time makes the water jump.
+  float2 dir = normalize(float2(0.25, 1.0));
+  float2 flow = dir * t * 0.28;
 
-  // Surface ripples bend what we see of the bed.
-  float2 warp = float2(fbm(p * 1.3 + flow * 2.0), fbm(p * 1.3 + flow * 2.0 + 7.3)) - 0.5;
-  float2 bedP = p + warp * 0.18;
+  // Gentle surface undulation travelling with the current.
+  float2 warp = float2(fbm(p * 1.1 - flow * 1.3), fbm(p * 1.1 - flow * 1.3 + 7.3)) - 0.5;
+  float2 bedP = p + warp * 0.12;
 
-  // Pebbles: Voronoi cells, each its own shade, darker in the gaps.
+  // Pebbles stay put on the bed; only their image wobbles through the water.
   float2 cell = voronoi(bedP * 2.6, 0.0);
   float2 id = floor(bedP * 2.6);
-  float shade = hash(id + floor(bedP.yx * 2.6));
+  float shade = hash(id + 3.7);
   float gap = smoothstep(0.02, 0.12, cell.y - cell.x);
   float3 bed = mix(c2 * 0.55, c1 * 1.15, shade) * (0.45 + 0.55 * gap);
-  bed *= 0.75 + 0.25 * fbm(bedP * 9.0);
+  bed *= 0.78 + 0.22 * fbm(bedP * 8.0);
 
-  // Caustics: the light network focused by the moving surface.
-  float2 v1 = voronoi(p * 3.0 + flow * 3.0 + warp, t * 1.4);
-  float2 v2 = voronoi(p * 5.2 - flow * 2.0 + warp * 1.5, t * 1.9 + 3.0);
-  float c = pow(1.0 - smoothstep(0.0, 0.18, v1.y - v1.x), 3.0) * 0.8 + pow(1.0 - smoothstep(0.0, 0.12, v2.y - v2.x), 3.0) * 0.45;
-  float3 col = bed + accent * c * (0.32 + 0.16 * level);
+  // Caustics: two light networks carried downstream at slightly different speeds.
+  float2 v1 = voronoi(p * 2.4 - flow * 2.0 + warp * 0.6, t);
+  float2 v2 = voronoi(p * 3.9 - flow * 2.6 + warp * 0.9 + 4.0, t * 1.2);
+  float c = pow(1.0 - smoothstep(0.0, 0.16, v1.y - v1.x), 3.0) * 0.7 + pow(1.0 - smoothstep(0.0, 0.11, v2.y - v2.x), 3.0) * 0.4;
+  float3 col = bed + accent * c * (0.3 + 0.2 * level);
 
-  // Water tint, depth towards the top and soft sky glint.
+  // Water tint, depth towards the top and a soft moving glint.
   col = mix(col, c0 * 0.9, 0.35 * smoothstep(0.2, 1.0, 1.0 - uv.y));
-  col += accent * 0.05 * smoothstep(0.6, 1.0, fbm(p * 0.8 + flow));
+  col += accent * 0.06 * smoothstep(0.55, 1.0, fbm(p * 0.7 - flow * 0.8));
   float vig = smoothstep(1.25, 0.35, length(uv - 0.5));
   col *= mix(0.6, 1.0, vig);
   return half4(half3(grain(tonemap(col), fc)), 1.0);
@@ -413,9 +416,9 @@ half4 main(float2 fc) {
   float3 col = haze;
   float2 sun = float2(aspect * 1.1, 1.35);   // off-screen, top right
 
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < 4; i++) {
     float fi = float(i);
-    float depth = 1.0 - fi / 6.0;                            // 1 = far, 0 = near
+    float depth = 1.0 - fi / 4.0;                            // 1 = far, 0 = near
     float sway = sin(t * 0.25 + fi * 1.3) * 0.002 * fi;
     float tr = trunks(x + sway + fi * 0.37, y, fi * 13.0, 1.4 + depth * 7.0, 0.05 + (1.0 - depth) * 0.06);
     float groundLine = 0.08 + fi * 0.015 + 0.02 * noise(float2(x * 3.0 + fi, fi));
@@ -530,7 +533,7 @@ half4 main(float2 fc) {
   float y = 1.0 - uv.y;
   float x = uv.x * aspect;
   float t = iTime;
-  float w = wind * (0.6 + 0.8 * level);
+  float w = wind;  // constant: scaling time by the audio level made clouds jump
 
   float3 col = mix(c2 * 1.2 + accent * 0.1, c0, smoothstep(0.1, 1.0, y));
   // Two warped cloud layers at different speeds (parallax).
@@ -540,7 +543,7 @@ half4 main(float2 fc) {
     float2 warp = float2(fbm(p + t * 0.02), fbm(p + 4.0));
     float c = fbm(p + warp * 0.8);
     float cover = smoothstep(0.42, 0.75, c) * smoothstep(0.15, 0.6, y);
-    float3 cc = mix(c1 * 1.3, mix(accent, float3(1.0), 0.4) * 0.9, smoothstep(0.5, 0.85, c));
+    float3 cc = mix(c1 * 1.3, mix(accent, float3(1.0), 0.4) * (0.85 + 0.25 * level), smoothstep(0.5, 0.85, c));
     col = mix(col, cc, cover * (0.55 - fi * 0.15));
   }
   // Sparkles in the air on chime strikes.
@@ -583,4 +586,64 @@ half4 main(float2 fc) {
   float vig = smoothstep(1.2, 0.3, length(uv - 0.5));
   col *= mix(0.6, 1.0, vig);
   return half4(half3(grain(tonemap(col), fc)), 1.0);
+}`;
+
+/* ------------------------------------------------------------------ */
+/* The orb: a liquid-glass sphere. Inner light swirls faster and glows  */
+/* brighter with the sound; each attack sends a ring through it.        */
+/* ------------------------------------------------------------------ */
+export const ORB = `
+uniform float2 iResolution;
+uniform float iTime;
+uniform float level;
+uniform float onsetAge;
+uniform float playing;
+uniform float3 accent;
+uniform float3 deep;
+
+float hash(float2 p) { p = fract(p * float2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+float noise(float2 p) {
+  float2 i = floor(p); float2 f = fract(p);
+  float2 u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + float2(1, 0)), u.x), mix(hash(i + float2(0, 1)), hash(i + float2(1, 1)), u.x), u.y);
+}
+float fbm(float2 p) { float v = 0.0; float a = 0.5; for (int i = 0; i < 4; i++) { v += a * noise(p); p = p * 2.1 + 3.1; a *= 0.5; } return v; }
+
+half4 main(float2 fc) {
+  float2 uv = (fc - iResolution * 0.5) / (iResolution.y * 0.5);   // -1..1
+  float r = length(uv);
+  float R = 0.62 + 0.03 * level;                                 // sphere radius
+  float t = iTime;
+
+  // Soft outer glow + a ring travelling outwards after each attack.
+  float glow = exp(-max(r - R, 0.0) * 6.0) * (0.25 + 0.5 * level) * smoothstep(1.0, R, r);
+  float ringR = R + onsetAge * 0.55;
+  float ring = exp(-pow((r - ringR) * 18.0, 2.0)) * exp(-onsetAge * 2.2) * step(R, r);
+  float3 col = accent * (glow * 0.6 + ring * 0.9);
+  float alpha = clamp(glow * 0.8 + ring, 0.0, 1.0);
+
+  if (r < R) {
+    float2 p = uv / R;
+    float z = sqrt(max(1.0 - dot(p, p), 0.0));                   // sphere normal
+    float3 n = float3(p, z);
+    // Inner liquid: swirling noise seen through the glass (refracted by the normal).
+    float ang = atan(p.y, p.x);
+    float spin = t * (0.15 + 0.25 * playing);
+    float2 q = float2(cos(ang + spin), sin(ang + spin)) * length(p) * 1.6 + n.xy * 0.4;
+    float liquid = fbm(q * 2.2 + float2(t * 0.12, -t * 0.08)) ;
+    float swirl = smoothstep(0.3, 0.85, liquid) * (0.6 + 0.6 * level);
+    // Tinted water rather than ink: the deep colour lifted towards the accent.
+    float3 base = mix(deep, accent, 0.3 + 0.1 * playing);
+    float3 inside = mix(base * 0.8, accent * 1.15, swirl) * (0.62 + 0.38 * z);
+    // Fresnel rim and a crisp specular highlight: this is what sells "glass".
+    float fres = pow(1.0 - z, 3.0);
+    float spec = pow(clamp(dot(n, normalize(float3(-0.45, -0.55, 0.7))), 0.0, 1.0), 40.0);
+    float3 glass = inside * 0.85 + accent * fres * 0.55 + float3(1.0) * spec * 0.85;
+    glass += float3(1.0) * 0.06 * smoothstep(0.92, 1.0, length(p));   // thin edge
+    float edge = smoothstep(R, R - 0.012, r);
+    col = mix(col, glass, edge);
+    // Translucent body (the scene shows through), opaque where light swirls or the rim catches.
+    alpha = max(alpha, edge * clamp(0.62 + 0.3 * swirl + fres * 0.4 + spec, 0.0, 1.0));
+  }
+  return half4(half3(col) * half(alpha), half(alpha));
 }`;
