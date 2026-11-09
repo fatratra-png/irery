@@ -11,7 +11,15 @@ Irery plays calm soundscapes, fully offline. It has no account, no backend, no A
   - **Nature**: forest, night crickets, campfire, wind
   - **Focus**: lo-fi, typing, theta binaural, white, pink and brown noise
   - **Meditate**: singing bowl, wind chimes, deep space
-- **A mood per sound**: each sound has its own palette, animated scene (rain, storm, ripples, waves, fireflies, embers, stars, bokeh, wind, aurora…) and breathing pace. Colours, scene and audio cross-fade when you switch sounds.
+- **Realistic living scenes**, drawn on the GPU by shaders (React Native Skia), with no video and no images:
+  - rain sliding down a window, with lightning on the storm
+  - a moonlit sea, a rippling pond, a brook with caustics
+  - a campfire with sparks, a misty forest with light shafts
+  - a starry night with the Milky Way, aurora, drifting clouds and mist
+
+  Scenes are rendered at half resolution to save battery, and they cross-fade with the audio when you switch sounds.
+- **Visuals that follow the real sound**: each recording's loudness envelope and attacks are analysed once at build time (`scripts/analyze-sounds.py`) and shipped with the app. Lightning strikes on actual thunder claps, ripples open on bowl strikes, sparks fly on fire crackles, and the waves swell with the surf. No microphone permission is needed.
+- **Frosted-glass interface**: the controls and the breathing orb are made of glass; the orb also swells with the loudness of the sound. The blur is real on iOS and web; Android gets a translucent tint instead.
 - **A calm player**: the breathing orb is the play button, the controls fade away after 12 s, and any touch brings them back.
 - **Sleep timer** (15–90 min) that fades the sound out over the last 30 seconds.
 - **Background playback**, including on silent mode, with lock-screen info.
@@ -26,7 +34,7 @@ npx expo start          # Expo Go, or press w for the web preview
 npx expo run:android    # native build (android/ is generated on demand)
 ```
 
-Requires Expo SDK 58.
+Requires Expo SDK 58. The web preview loads Skia's runtime from `public/canvaskit.wasm`, which `npm install` copies locally, so the web preview stays offline too.
 
 ## Sounds
 
@@ -37,8 +45,9 @@ Seven ambiences are synthesized from maths by `scripts/generate-sounds.py`, so t
 
 The same script normalizes **every** sound to −23 LUFS, so switching sounds never jumps in volume.
 
-To regenerate the sounds (requires `numpy` and `ffmpeg`):
+To regenerate the sounds and their analysis (requires `numpy` and `ffmpeg`):
 
 ```bash
-python3 scripts/generate-sounds.py
+python3 scripts/generate-sounds.py   # synthesize + normalize loudness
+python3 scripts/analyze-sounds.py    # envelopes and attacks for the visuals
 ```
