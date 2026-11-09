@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index",
   "scripts": {
+    "dev": "expo start",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",

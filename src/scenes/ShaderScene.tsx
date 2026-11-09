@@ -66,7 +66,7 @@ function ShaderLayer({ mood, reduced }: { mood: Mood; reduced: boolean }) {
       seeds: r.seeds,
       ...(needsFlash ? { flash: storm * Math.exp(-r.onsetAge * 3.5) * 0.9 } : {}),
     };
-  }, [statics, w, h, timeScale]);
+  });
 
   if (!effect) return <View style={[StyleSheet.absoluteFill, { backgroundColor: mood.colors[1] }]} />;
   return (
