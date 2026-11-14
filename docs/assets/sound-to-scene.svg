@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 360" width="980" height="360" role="img" aria-label="How a sound drives the visuals: at build time each recording is analysed into an envelope and a list of attacks; at runtime the playback position reads them and feeds the scene shader, the orb and the effects">
+  <title>From sound to scene</title>
+  <desc>Build time: the mp3 is decoded and analysed by scripts/analyze-sounds.py into envelopes.json. Runtime: the player's position reads level and onset age, which drive the scene, the orb and the effects. No microphone, no network.</desc>
+  <defs>
+    <pattern id="grid" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="1.3" cy="1.3" r="1.3" fill="#9cc3e6" opacity="0.12" />
+    </pattern>
+    <style>
+      .k { font: 600 10px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; fill: #7f93b3; }
+      .t { font: 500 17px/1 'Outfit', 'Avenir Next', ui-sans-serif, system-ui, sans-serif; fill: #eef4fb; }
+      .s { font: 11.5px/1 ui-sans-serif, system-ui, sans-serif; fill: #9aa9c2; }
+      .m { font: 11.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace; fill: #cfe9ef; }
+      .card { fill: #121b30; stroke: #24314f; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect width="980" height="360" rx="24" fill="#0b0f1a" />
+  <rect width="980" height="360" rx="24" fill="url(#grid)" />
+
+  <!-- lane labels -->
+  <text x="32" y="40" class="k">build time · once</text>
+  <text x="32" y="212" class="k">runtime · every frame</text>
+  <line x1="32" y1="186" x2="948" y2="186" stroke="#24314f" stroke-dasharray="3 6" />
+
+  <!-- build lane -->
+  <rect x="32" y="58" width="220" height="96" rx="16" class="card" />
+  <text x="52" y="90" class="t">thunder.mp3</text>
+  <text x="52" y="112" class="s">one of 19 bundled sounds</text>
+  <!-- waveform -->
+  <path d="M52 134 h10 l3 -6 l3 10 l3 -14 l3 18 l3 -8 l3 2 h14 l3 -4 l3 6 l3 -2 h10 l3 -10 l2 16 l3 -12 l3 6 h40" fill="none" stroke="#c7cdf5" stroke-width="1.5" stroke-linejoin="round" />
+
+  <rect x="322" y="58" width="300" height="96" rx="16" class="card" />
+  <text x="342" y="90" class="t">analyze-sounds.py</text>
+  <text x="342" y="112" class="s">ffmpeg → mono 8 kHz → numpy</text>
+  <text x="342" y="134" class="m">rms → dB → envelope · onsets</text>
+
+  <rect x="692" y="58" width="256" height="96" rx="16" class="card" />
+  <text x="712" y="90" class="t">envelopes.json</text>
+  <text x="712" y="112" class="s">20 values / second, 0–255</text>
+  <text x="712" y="134" class="m">+ attack timestamps</text>
+
+  <path d="M252 106 H322" stroke="#3d4f78" stroke-width="2" />
+  <path d="M622 106 H692" stroke="#3d4f78" stroke-width="2" />
+  <path d="M316 101 l6 5 l-6 5 M686 101 l6 5 l-6 5" fill="none" stroke="#3d4f78" stroke-width="2" />
+
+  <!-- shipped down into runtime -->
+  <path d="M820 154 C820 200 820 206 820 228" stroke="#9cc3e6" stroke-width="2" stroke-dasharray="6 7" fill="none">
+    <animate attributeName="stroke-dashoffset" from="0" to="-26" dur="1.2s" repeatCount="indefinite" />
+  </path>
+  <text x="832" y="198" class="s">bundled in the app</text>
+
+  <!-- runtime lane -->
+  <rect x="692" y="228" width="256" height="100" rx="16" class="card" />
+  <text x="712" y="260" class="t">reactive.ts</text>
+  <text x="712" y="282" class="m">level · onsetAge</text>
+  <text x="712" y="304" class="s">read at the playback position</text>
+
+  <rect x="372" y="228" width="250" height="100" rx="16" class="card" />
+  <text x="392" y="260" class="t">Skia shaders</text>
+  <text x="392" y="282" class="s">scene uniforms, half resolution</text>
+  <text x="392" y="304" class="s">liquid-glass orb, same signal</text>
+
+  <path d="M692 278 H622" stroke="#9cc3e6" stroke-width="2.5" stroke-dasharray="9 8" fill="none">
+    <animate attributeName="stroke-dashoffset" from="0" to="34" dur="1s" repeatCount="indefinite" />
+  </path>
+
+  <!-- effects -->
+  <g>
+    <rect x="32" y="222" width="270" height="30" rx="15" fill="#1a1d30" stroke="#2e3350" />
+    <circle cx="50" cy="237" r="5" fill="#c7cdf5" />
+    <text x="64" y="241" class="s" fill="#dfe3fb">lightning on real thunder claps</text>
+    <rect x="32" y="262" width="270" height="30" rx="15" fill="#33170e" stroke="#5c2a15" />
+    <circle cx="50" cy="277" r="5" fill="#ffb37a" />
+    <text x="64" y="281" class="s" fill="#ffe3cc">sparks on fire crackles</text>
+    <rect x="32" y="302" width="270" height="30" rx="15" fill="#362713" stroke="#56401f" />
+    <circle cx="50" cy="317" r="5" fill="#f5d28c" />
+    <text x="64" y="321" class="s" fill="#fbecd0">ripples on each bowl strike</text>
+  </g>
+  <path d="M372 278 H302" stroke="#9cc3e6" stroke-width="2.5" stroke-dasharray="9 8" fill="none">
+    <animate attributeName="stroke-dashoffset" from="0" to="34" dur="1s" repeatCount="indefinite" />
+  </path>
+</svg>

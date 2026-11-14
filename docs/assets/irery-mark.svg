@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Irery orb">
+  <title>Irery</title>
+  <defs>
+    <radialGradient id="o" cx="0.38" cy="0.32" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="0.25" stop-color="#cfe9ef" />
+      <stop offset="0.6" stop-color="#9cc3e6" />
+      <stop offset="1" stop-color="#3a4f7a" />
+    </radialGradient>
+    <radialGradient id="h" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#9cc3e6" stop-opacity="0.5" />
+      <stop offset="1" stop-color="#9cc3e6" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <circle cx="48" cy="48" r="46" fill="url(#h)"><animate attributeName="r" values="40;46;40" dur="9s" repeatCount="indefinite" /></circle>
+  <circle cx="48" cy="48" r="26" fill="url(#o)" />
+  <ellipse cx="40" cy="38" rx="9" ry="5" fill="#ffffff" opacity="0.35" transform="rotate(-28 40 38)" />
+</svg>

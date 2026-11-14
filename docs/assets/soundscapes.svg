@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" width="980" height="430" role="img" aria-label="The 19 soundscapes of Irery in four groups, each drawn in its own mood colours">
+<title>Irery soundscapes</title>
+<defs>
+<style>.c{font:600 10px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase}.n{font:500 14.5px/1 'Outfit','Avenir Next',ui-sans-serif,system-ui,sans-serif;fill:#f3f6fb}.h{font:11px/1 ui-sans-serif,system-ui,sans-serif;fill:#ffffff;fill-opacity:.62}</style>
+<linearGradient id="g0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f1a2b"/><stop offset=".55" stop-color="#1a2c42"/><stop offset="1" stop-color="#27415b"/></linearGradient>
+<radialGradient id="o0" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#9cc3e6"/><stop offset="1" stop-color="#27415b"/></radialGradient>
+<linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0c0e18"/><stop offset=".55" stop-color="#1a1d30"/><stop offset="1" stop-color="#2e3350"/></linearGradient>
+<radialGradient id="o1" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#c7cdf5"/><stop offset="1" stop-color="#2e3350"/></radialGradient>
+<linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a1e25"/><stop offset=".55" stop-color="#12363c"/><stop offset="1" stop-color="#1d5356"/></linearGradient>
+<radialGradient id="o2" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#8fd3c8"/><stop offset="1" stop-color="#1d5356"/></radialGradient>
+<linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d211e"/><stop offset=".55" stop-color="#173c36"/><stop offset="1" stop-color="#275a4b"/></linearGradient>
+<radialGradient id="o3" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#a7e0c5"/><stop offset="1" stop-color="#275a4b"/></radialGradient>
+<linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#06182a"/><stop offset=".55" stop-color="#0e324c"/><stop offset="1" stop-color="#19536f"/></linearGradient>
+<radialGradient id="o4" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#89c9e8"/><stop offset="1" stop-color="#19536f"/></radialGradient>
+<linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a2031"/><stop offset=".55" stop-color="#133c54"/><stop offset="1" stop-color="#276478"/></linearGradient>
+<radialGradient id="o5" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#9fe0e8"/><stop offset="1" stop-color="#276478"/></radialGradient>
+<linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0c1811"/><stop offset=".55" stop-color="#183021"/><stop offset="1" stop-color="#2a4a32"/></linearGradient>
+<radialGradient id="o6" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#b5d99c"/><stop offset="1" stop-color="#2a4a32"/></radialGradient>
+<linearGradient id="g7" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05081a"/><stop offset=".55" stop-color="#0f1730"/><stop offset="1" stop-color="#1b2747"/></linearGradient>
+<radialGradient id="o7" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#e8e3b5"/><stop offset="1" stop-color="#1b2747"/></radialGradient>
+<linearGradient id="g8" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#170c08"/><stop offset=".55" stop-color="#33170e"/><stop offset="1" stop-color="#5c2a15"/></linearGradient>
+<radialGradient id="o8" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#ffb37a"/><stop offset="1" stop-color="#5c2a15"/></radialGradient>
+<linearGradient id="g9" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#171c23"/><stop offset=".55" stop-color="#29313b"/><stop offset="1" stop-color="#404b57"/></linearGradient>
+<radialGradient id="o9" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#d5dde6"/><stop offset="1" stop-color="#404b57"/></radialGradient>
+<linearGradient id="g10" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a1223"/><stop offset=".55" stop-color="#2e2143"/><stop offset="1" stop-color="#4a3462"/></linearGradient>
+<radialGradient id="o10" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#e2b8f0"/><stop offset="1" stop-color="#4a3462"/></radialGradient>
+<linearGradient id="g11" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14141b"/><stop offset=".55" stop-color="#232331"/><stop offset="1" stop-color="#36364b"/></linearGradient>
+<radialGradient id="o11" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#c9c9ff"/><stop offset="1" stop-color="#36364b"/></radialGradient>
+<linearGradient id="g12" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d1324"/><stop offset=".55" stop-color="#1c2747"/><stop offset="1" stop-color="#334471"/></linearGradient>
+<radialGradient id="o12" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#b8c6ff"/><stop offset="1" stop-color="#334471"/></radialGradient>
+<linearGradient id="g13" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#15171a"/><stop offset=".55" stop-color="#26292e"/><stop offset="1" stop-color="#3a3f45"/></linearGradient>
+<radialGradient id="o13" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#e6e9ed"/><stop offset="1" stop-color="#3a3f45"/></radialGradient>
+<linearGradient id="g14" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c1216"/><stop offset=".55" stop-color="#35212b"/><stop offset="1" stop-color="#523643"/></linearGradient>
+<radialGradient id="o14" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#f2c2d4"/><stop offset="1" stop-color="#523643"/></radialGradient>
+<linearGradient id="g15" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17120d"/><stop offset=".55" stop-color="#2e2319"/><stop offset="1" stop-color="#463527"/></linearGradient>
+<radialGradient id="o15" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#e3c9a8"/><stop offset="1" stop-color="#463527"/></radialGradient>
+<linearGradient id="g16" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c150b"/><stop offset=".55" stop-color="#362713"/><stop offset="1" stop-color="#56401f"/></linearGradient>
+<radialGradient id="o16" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#f5d28c"/><stop offset="1" stop-color="#56401f"/></radialGradient>
+<linearGradient id="g17" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f1a21"/><stop offset=".55" stop-color="#1d323b"/><stop offset="1" stop-color="#334f58"/></linearGradient>
+<radialGradient id="o17" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#cfe9ef"/><stop offset="1" stop-color="#334f58"/></radialGradient>
+<linearGradient id="g18" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05050c"/><stop offset=".55" stop-color="#0c0d22"/><stop offset="1" stop-color="#1b1a42"/></linearGradient>
+<radialGradient id="o18" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#c3b8ff"/><stop offset="1" stop-color="#1b1a42"/></radialGradient>
+</defs>
+<rect width="980" height="430" rx="24" fill="#0b0f1a"/>
+<text x="28" y="44" class="c" fill="#9cc3e6">Water · 6</text>
+<rect x="24" y="60" width="224" height="52" rx="14" fill="url(#g0)"/>
+<rect x="24" y="60" width="224" height="52" rx="14" fill="none" stroke="#9cc3e6" stroke-opacity=".18"/>
+<circle cx="50" cy="86.0" r="11" fill="url(#o0)"/>
+<text x="72" y="82" class="n">Rain</text>
+<text x="72" y="99" class="h">Steady rainfall</text>
+<rect x="24" y="120" width="224" height="52" rx="14" fill="url(#g1)"/>
+<rect x="24" y="120" width="224" height="52" rx="14" fill="none" stroke="#c7cdf5" stroke-opacity=".18"/>
+<circle cx="50" cy="146.0" r="11" fill="url(#o1)"/>
+<text x="72" y="142" class="n">Thunder</text>
+<text x="72" y="159" class="h">Distant storm</text>
+<rect x="24" y="180" width="224" height="52" rx="14" fill="url(#g2)"/>
+<rect x="24" y="180" width="224" height="52" rx="14" fill="none" stroke="#8fd3c8" stroke-opacity=".18"/>
+<circle cx="50" cy="206.0" r="11" fill="url(#o2)"/>
+<text x="72" y="202" class="n">Drops</text>
+<text x="72" y="219" class="h">Water drops on a pond</text>
+<rect x="24" y="240" width="224" height="52" rx="14" fill="url(#g3)"/>
+<rect x="24" y="240" width="224" height="52" rx="14" fill="none" stroke="#a7e0c5" stroke-opacity=".18"/>
+<circle cx="50" cy="266.0" r="11" fill="url(#o3)"/>
+<text x="72" y="262" class="n">Stream</text>
+<text x="72" y="279" class="h">A brook over stones</text>
+<rect x="24" y="300" width="224" height="52" rx="14" fill="url(#g4)"/>
+<rect x="24" y="300" width="224" height="52" rx="14" fill="none" stroke="#89c9e8" stroke-opacity=".18"/>
+<circle cx="50" cy="326.0" r="11" fill="url(#o4)"/>
+<text x="72" y="322" class="n">Ocean</text>
+<text x="72" y="339" class="h">Open sea</text>
+<rect x="24" y="360" width="224" height="52" rx="14" fill="url(#g5)"/>
+<rect x="24" y="360" width="224" height="52" rx="14" fill="none" stroke="#9fe0e8" stroke-opacity=".18"/>
+<circle cx="50" cy="386.0" r="11" fill="url(#o5)"/>
+<text x="72" y="382" class="n">Shore</text>
+<text x="72" y="399" class="h">Waves on the beach</text>
+<text x="264" y="44" class="c" fill="#b5d99c">Nature · 4</text>
+<rect x="260" y="60" width="224" height="52" rx="14" fill="url(#g6)"/>
+<rect x="260" y="60" width="224" height="52" rx="14" fill="none" stroke="#b5d99c" stroke-opacity=".18"/>
+<circle cx="286" cy="86.0" r="11" fill="url(#o6)"/>
+<text x="308" y="82" class="n">Forest</text>
+<text x="308" y="99" class="h">Birds and leaves</text>
+<rect x="260" y="120" width="224" height="52" rx="14" fill="url(#g7)"/>
+<rect x="260" y="120" width="224" height="52" rx="14" fill="none" stroke="#e8e3b5" stroke-opacity=".18"/>
+<circle cx="286" cy="146.0" r="11" fill="url(#o7)"/>
+<text x="308" y="142" class="n">Night</text>
+<text x="308" y="159" class="h">Crickets under the stars</text>
+<rect x="260" y="180" width="224" height="52" rx="14" fill="url(#g8)"/>
+<rect x="260" y="180" width="224" height="52" rx="14" fill="none" stroke="#ffb37a" stroke-opacity=".18"/>
+<circle cx="286" cy="206.0" r="11" fill="url(#o8)"/>
+<text x="308" y="202" class="n">Campfire</text>
+<text x="308" y="219" class="h">Crackling wood</text>
+<rect x="260" y="240" width="224" height="52" rx="14" fill="url(#g9)"/>
+<rect x="260" y="240" width="224" height="52" rx="14" fill="none" stroke="#d5dde6" stroke-opacity=".18"/>
+<circle cx="286" cy="266.0" r="11" fill="url(#o9)"/>
+<text x="308" y="262" class="n">Wind</text>
+<text x="308" y="279" class="h">Breeze through the hills</text>
+<text x="500" y="44" class="c" fill="#e2b8f0">Focus · 6</text>
+<rect x="496" y="60" width="224" height="52" rx="14" fill="url(#g10)"/>
+<rect x="496" y="60" width="224" height="52" rx="14" fill="none" stroke="#e2b8f0" stroke-opacity=".18"/>
+<circle cx="522" cy="86.0" r="11" fill="url(#o10)"/>
+<text x="544" y="82" class="n">Lo-fi</text>
+<text x="544" y="99" class="h">Mellow beats</text>
+<rect x="496" y="120" width="224" height="52" rx="14" fill="url(#g11)"/>
+<rect x="496" y="120" width="224" height="52" rx="14" fill="none" stroke="#c9c9ff" stroke-opacity=".18"/>
+<circle cx="522" cy="146.0" r="11" fill="url(#o11)"/>
+<text x="544" y="142" class="n">Typing</text>
+<text x="544" y="159" class="h">Soft keystrokes</text>
+<rect x="496" y="180" width="224" height="52" rx="14" fill="url(#g12)"/>
+<rect x="496" y="180" width="224" height="52" rx="14" fill="none" stroke="#b8c6ff" stroke-opacity=".18"/>
+<circle cx="522" cy="206.0" r="11" fill="url(#o12)"/>
+<text x="544" y="202" class="n">Theta</text>
+<text x="544" y="219" class="h">Binaural focus – headphones</text>
+<rect x="496" y="240" width="224" height="52" rx="14" fill="url(#g13)"/>
+<rect x="496" y="240" width="224" height="52" rx="14" fill="none" stroke="#e6e9ed" stroke-opacity=".18"/>
+<circle cx="522" cy="266.0" r="11" fill="url(#o13)"/>
+<text x="544" y="262" class="n">White noise</text>
+<text x="544" y="279" class="h">Masks everything</text>
+<rect x="496" y="300" width="224" height="52" rx="14" fill="url(#g14)"/>
+<rect x="496" y="300" width="224" height="52" rx="14" fill="none" stroke="#f2c2d4" stroke-opacity=".18"/>
+<circle cx="522" cy="326.0" r="11" fill="url(#o14)"/>
+<text x="544" y="322" class="n">Pink noise</text>
+<text x="544" y="339" class="h">Softer, balanced</text>
+<rect x="496" y="360" width="224" height="52" rx="14" fill="url(#g15)"/>
+<rect x="496" y="360" width="224" height="52" rx="14" fill="none" stroke="#e3c9a8" stroke-opacity=".18"/>
+<circle cx="522" cy="386.0" r="11" fill="url(#o15)"/>
+<text x="544" y="382" class="n">Brown noise</text>
+<text x="544" y="399" class="h">Deep and warm</text>
+<text x="736" y="44" class="c" fill="#f5d28c">Meditate · 3</text>
+<rect x="732" y="60" width="224" height="52" rx="14" fill="url(#g16)"/>
+<rect x="732" y="60" width="224" height="52" rx="14" fill="none" stroke="#f5d28c" stroke-opacity=".18"/>
+<circle cx="758" cy="86.0" r="11" fill="url(#o16)"/>
+<text x="780" y="82" class="n">Singing bowl</text>
+<text x="780" y="99" class="h">Slow resonant strikes</text>
+<rect x="732" y="120" width="224" height="52" rx="14" fill="url(#g17)"/>
+<rect x="732" y="120" width="224" height="52" rx="14" fill="none" stroke="#cfe9ef" stroke-opacity=".18"/>
+<circle cx="758" cy="146.0" r="11" fill="url(#o17)"/>
+<text x="780" y="142" class="n">Wind chimes</text>
+<text x="780" y="159" class="h">Bells in a light breeze</text>
+<rect x="732" y="180" width="224" height="52" rx="14" fill="url(#g18)"/>
+<rect x="732" y="180" width="224" height="52" rx="14" fill="none" stroke="#c3b8ff" stroke-opacity=".18"/>
+<circle cx="758" cy="206.0" r="11" fill="url(#o18)"/>
+<text x="780" y="202" class="n">Deep space</text>
+<text x="780" y="219" class="h">Slow evolving drone</text>
+</svg>
